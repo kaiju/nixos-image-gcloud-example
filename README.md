@@ -25,7 +25,7 @@ Upload image result to GCS:
 Create new Compute Engine image:
 
 ```
-gcloud compute images create nixos-example-image --source-uri gs://<bucket>/image.raw.tar.gz
+# gcloud compute images create nixos-example-image --source-uri gs://<bucket>/image.raw.tar.gz
 ```
 
 ## Cloud Build
@@ -33,6 +33,6 @@ gcloud compute images create nixos-example-image --source-uri gs://<bucket>/imag
 The image build & publish process can also be automated with Cloud Build. `cloudbuild.yaml` is a pipeline that creates a Nix builder, builds the system image, uploads it to GCS, and creates a new image in Compute Engine.
 
 ```
-gcloud builds submit . --substitutions="_BUCKET=<bucket>,SHORT_SHA=$(git rev-parse --short HEAD)"
+# gcloud builds submit . --substitutions="_BUCKET=<bucket>,SHORT_SHA=$(git rev-parse --short HEAD)"
 ```
 
