@@ -1,8 +1,18 @@
-{ lib, pkgs, ... }:
+{ lib, ... }:
 {
 
   networking.hostName = "example";
   system.stateVersion = "25.11";
+
+  nix.settings = {
+    experimental-features = "nix-command flakes";
+  };
+
+  # Google Compute image builder-specific configuration
+  image.modules.google-compute = {
+    # Give us an easily predictable image filename so CI is less of a chore
+    image.baseName = "image";
+  };
 
   /*
     oslogin's NSS plugin causes nscd/nsncd segfaults when resolving group IDs to a Google identity.
@@ -19,5 +29,11 @@
     "files"
     "systemd"
   ];
+
+  programs.neovim = {
+    enable = true;
+    viAlias = true;
+    vimAlias = true;
+  };
 
 }
