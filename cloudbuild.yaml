@@ -1,0 +1,37 @@
+---
+steps:
+
+  # build our nix builder
+  - name: gcr.io/cloud-builders/docker
+    args: ["build", "-t", "$LOCATION-docker.pkg.dev/$PROJECT_ID/nix-build", "-f", "nix-builder.Dockerfile", "."]
+
+  # nix build our Compute image
+  - name: $LOCATION-docker.pkg.dev/$PROJECT_ID/nix-build
+    args: ".#nixosConfigurations.$_CONFIG_NAME.config.system.build.images.google-compute"
+    volumes:
+      - name: nix-store
+        path: /nix/
+
+  # upload results to GCS and import into Compute
+  - name: gcr.io/cloud-builders/gcloud
+    script: |
+      #!/usr/bin/env bash
+      
+      set -xe
+
+      export SHORT_SHA="${SHORT_SHA:-none}"
+      export IMAGE_NAME="nixos-$_CONFIG_NAME-${SHORT_SHA}-$(date +%s)"
+
+      gcloud storage cp result/image.raw.tar.gz gs://$_BUCKET/$IMAGE_NAME.raw.tar.gz
+
+      gcloud compute images create $IMAGE_NAME --family nixos-$_CONFIG_NAME --source-uri gs://$_BUCKET/$IMAGE_NAME.raw.tar.gz
+    volumes:
+      - name: nix-store
+        path: /nix/
+
+options:
+  automapSubstitutions: true
+substitutions:
+  _CONFIG_NAME: example 
+  _BUCKET: example-bucket
+
