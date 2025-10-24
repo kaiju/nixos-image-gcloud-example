@@ -31,6 +31,6 @@ gcloud compute images create nixos-example-image --source-uri gs://<bucket>/imag
 The image build & publish process can also be automated with Cloud Build. `cloudbuild.yaml` is an example pipeline that creates a Nix builder, builds the system image, uploads it to GCS, and creates a new image in Compute Engine.
 
 ```
-gcloud --project fulcra-artifacts builds submit . --substitutions="_BUCKET=<bucket>,SHORT_SHA=$(git rev-parse --short HEAD)"
+gcloud builds submit . --substitutions="_BUCKET=<bucket>,SHORT_SHA=$(git rev-parse --short HEAD)"
 ```
 
