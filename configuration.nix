@@ -16,7 +16,7 @@
 
   /*
     oslogin's NSS plugin causes nscd/nsncd segfaults when resolving group IDs to a Google identity.
-    Typically this manifests as an ability to sudo and long pauses for any process that attempts to resolve
+    Typically this manifests as an inability to sudo and long pauses for any process that attempts to resolve
     a group ID.
 
     https://github.com/NixOS/nixpkgs/issues/218813
