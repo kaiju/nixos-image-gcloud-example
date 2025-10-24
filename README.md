@@ -1,6 +1,8 @@
 # NixOS Image Building for Google Cloud Compute Engine
 
-NixOS provides several modules that can be used to build images from system configurations. The `google-compute` image builder can be used to build images for Google Cloud Compute Engine.
+The only thing better than having declarative configuration management as a first class feature of your OS is leveraging it to build deployable images from your system configuration. No more hacking together Ansible and Packer or shoving overwrought shell scripts into cloud-init!
+
+NixOS provides [modules](https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/image/images.nix) that can be used to build a variety of images. In this example we'll use the [`google-compute`](https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/virtualisation/google-compute-image.nix) module to build an image suitable for deploying on Google Cloud.
 
 ## Building
 
