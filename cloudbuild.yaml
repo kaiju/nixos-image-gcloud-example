@@ -7,7 +7,7 @@ steps:
 
   # nix build our Compute image
   - name: $LOCATION-docker.pkg.dev/$PROJECT_ID/nix-build
-    args: ".#nixosConfigurations.$_CONFIG_NAME.config.system.build.images.google-compute"
+    args: [".#nixosConfigurations.$_CONFIG_NAME.config.system.build.images.google-compute"]
     volumes:
       - name: nix-store
         path: /nix/
